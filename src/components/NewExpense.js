@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import '../css/NewExpense.css'
 import ExpenseForm from './ExpenseForm';
 
@@ -9,10 +9,16 @@ const NewExpense = (props) => {
             id : Math.random().toString()
         }
         props.onAddExpense(expenseData);
+        setIsPressed(false);
+    }
+    const [isPressed, setIsPressed] = useState(false);
+    const addExpenseHandler = () => {
+        setIsPressed(prevPressed => !prevPressed);
     }
     return (
         <div className="new-expense">
-            <ExpenseForm  onSaveExpenseData={saveExpenseDataHandler}/>
+            {!isPressed && <button onClick={addExpenseHandler}>Add new Expense</button>}
+            {isPressed=== true && <ExpenseForm  onSaveExpenseData={saveExpenseDataHandler} onCancel={addExpenseHandler}/>}
 
         </div>
     )
